@@ -5,7 +5,7 @@ Jag ska göra en hemsida som är till för att boka bilen i familjen. Nu när ja
 ## 2. Vyer (visa bildskisser på dina sidor).
 ![skiss](figma-skiss-slutprojekt-WSP.JPG)
 ## 3. Databas med ER-diagram (Bild på ER-diagram).
-![ER-diagram](er-diagram.JPG)
+![ER-diagram](er-diagram.jpg)
 ## 4. Arkitektur (Beskriv filer och mappar - vad gör/innehåller de?).
 
 
