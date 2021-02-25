@@ -15,5 +15,15 @@
         }
 }
         
-    
 
+
+/* LOGIN-SIDAN*/
+
+.login_page input[type="text"]{
+    width: 70vw;
+    height: 80px;
+    border: none;
+    background: white;
+    text-align: center;
+    border-radius: 85px;
+}

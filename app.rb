@@ -20,7 +20,7 @@ post('/login') do
     login_result_array = login_user(username, password)
     if login_result_array[0] == false
         
-        p "fel #{login_result_array[1]}"
+       # p "fel #{login_result_array[1]}"
     else
         session[:user_id] = login_result_array[1]
         redirect('/home')
