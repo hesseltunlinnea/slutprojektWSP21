@@ -41,17 +41,22 @@ end
 end
 
 def login_user(username, password)
+
     db = database()
     user_info_db = db.execute('SELECT id, password_digest FROM Users WHERE username = ?', username)
     user_id = user_info_db.first['id']
     password_digest = user_info_db.first['password_digest']
+    
+    login_accepted = nil
 
-    if BCrypt::Password.new(password_digest) == entered_password      
+    if BCrypt::Password.new(password_digest) == password   
         login_accepted = true
     else
         login_accepted = false
     end
 
-    return login_accepted, user_id
+    login_result_array = [login_accepted, user_id]
+
+    return login_result_array
 
 end

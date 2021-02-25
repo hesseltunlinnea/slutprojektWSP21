@@ -6,21 +6,25 @@ require_relative './model.rb'
 enable :sessions
 
 
-get('/')do
+get('/home')do
+    slim(:home)
+end
+
+get('/login') do
     slim(:login)
 end
 
 post('/login') do
     username = params[:username]
-    password = params[:password1]
-    login_user(username, password)
-    if login_accepted = true
-        session[:user_id] = user_id
-        redirect('home')
+    password = params[:password]
+    login_result_array = login_user(username, password)
+    if login_result_array[0] == false
+        
+        p "fel #{login_result_array[1]}"
     else
-        p "fel!!"
+        session[:user_id] = login_result_array[1]
+        redirect('/home')
     end
-   
 
 end
 
