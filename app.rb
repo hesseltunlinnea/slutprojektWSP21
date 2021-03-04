@@ -48,3 +48,7 @@ post('/register') do
     end
 
 end
+
+post('/add_vehicle') do
+
+end
