@@ -49,6 +49,11 @@ post('/register') do
 
 end
 
-post('/add_vehicle') do
+get('/add') do
+    slim(:add_vehicle)
+end
 
+post('/add_vehicle') do
+    avatar = params[:avatar]
+    license_number = params[:license_number]
 end
