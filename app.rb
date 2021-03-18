@@ -7,7 +7,10 @@ enable :sessions
 
 
 get('/home')do
-    slim(:home)
+    cars_information = user_car_information(session[:user_id])
+    license_number = cars_information['license_number']
+    avatar = cars_information['avatar']
+    slim(:home, locals:{license_number:license_number, avatar:avatar})
 end
 
 get('/login') do
@@ -19,8 +22,7 @@ post('/login') do
     password = params[:password]
     login_result_array = login_user(username, password)
     if login_result_array[0] == false
-        
-       # p "fel #{login_result_array[1]}"
+        redirect('/login')
     else
         session[:user_id] = login_result_array[1]
         redirect('/home')
@@ -42,18 +44,21 @@ post('/register') do
     password2 = params[:password2]
 
     if register_user(first_name, last_name, username, tel, email, password1, password2) == true
-        redirect('login')
+        redirect('/login')
     else
         #felmeddelande
+        redirect('/regiser')
     end
 
 end
 
-get('/add') do
+get('/add_vehicle') do
     slim(:add_vehicle)
 end
 
 post('/add_vehicle') do
     avatar = params[:avatar]
     license_number = params[:license_number]
+    add_vehicle(avatar, license_number, session[:user_id])
+    redirect('home')
 end

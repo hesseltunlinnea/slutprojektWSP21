@@ -60,3 +60,23 @@ def login_user(username, password)
     return login_result_array
 
 end
+
+def add_vehicle(avatar, license_number, user_id)
+    db = database()
+    db.execute('INSERT INTO Cars (avatar, license_number) values (?,?)', avatar, license_number)
+    car_id = db.execute('SELECT id FROM Cars WHERE license_number = ?', license_number)
+    db.execute('INSERT INTO CarUser (user_id, car_id) values (?,?)', user_id, car_id )
+end
+
+
+def user_car_information(user_id)
+    db = database()
+    cars_of_user = db.execute('SELECT car_id from CarUsers WHERE user_id = ?', user_id )
+    #än så länge gör jag bara informationen för första bilen men jag vill att man ska kunna välja
+    cars_information = db.execute('SELECT * FROM Cars WHERE id = ?', cars_of_user[0])
+    license_number = cars_information['license_number']
+    avatar = cars_information['avatar']
+
+    return cars_information
+
+end
