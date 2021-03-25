@@ -8,13 +8,14 @@ enable :sessions
 
 get('/home')do
     cars_information = user_car_information(session[:user_id])
+rescue SQLite3::SQLException
     license_number = cars_information['license_number']
     avatar = cars_information['avatar']
     slim(:home, locals:{license_number:license_number, avatar:avatar})
 end
 
 get('/login') do
-    slim(:login)
+    slim(:'user/login')
 end
 
 post('/login') do
@@ -31,7 +32,7 @@ post('/login') do
 end
 
 get('/register') do
-    slim(:register)
+    slim(:'user/register')
 end
 
 post('/register') do
