@@ -29,3 +29,31 @@
 }
 
 
+/*HOME */
+
+#chosen_car{
+    max-width: 100%;
+    margin: auto;
+}
+
+.avatar_background{
+    color: aquamarine;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin: auto;
+}
+
+.avatar_background img{
+    max-width: 100%;
+}
+
+/*ADD VEHICLE*/
+
+.add_vehicle form{
+    max-width: fit-content;
+}
+
+.add_vehicle img{
+    width: 70px;
+}
