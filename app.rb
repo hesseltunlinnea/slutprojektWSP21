@@ -8,13 +8,17 @@ enable :sessions
 
 get('/home')do
     cars_information = user_car_information(session[:user_id])
-rescue SQLite3::SQLException
-    license_number = cars_information['license_number']
-    avatar = cars_information['avatar']
-    slim(:home, locals:{license_number:license_number, avatar:avatar})
+    if cars_information != []
+        license_number = cars_information['license_number']
+        avatar = cars_information['avatar']
+        slim(:home, locals:{license_number:license_number, avatar:avatar})
+    else
+        avatar = 1
+        slim(:home, locals:{avatar:avatar})
+    end
 end
 
-get('/login') do
+get('/user/login') do
     slim(:'user/login')
 end
 
@@ -23,7 +27,7 @@ post('/login') do
     password = params[:password]
     login_result_array = login_user(username, password)
     if login_result_array[0] == false
-        redirect('/login')
+        redirect('/user/login')
     else
         session[:user_id] = login_result_array[1]
         redirect('/home')
@@ -31,7 +35,7 @@ post('/login') do
 
 end
 
-get('/register') do
+get('/user/register') do
     slim(:'user/register')
 end
 
@@ -48,7 +52,7 @@ post('/register') do
         redirect('/login')
     else
         #felmeddelande
-        redirect('/regiser')
+        redirect('/user/regiser')
     end
 
 end
@@ -62,4 +66,8 @@ post('/add_vehicle') do
     license_number = params[:license_number]
     add_vehicle(avatar, license_number, session[:user_id])
     redirect('home')
+end
+
+get('/user/settings') do
+    slim(:'user/settings')
 end

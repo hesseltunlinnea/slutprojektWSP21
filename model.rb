@@ -76,8 +76,8 @@ def user_car_information(user_id)
     cars_of_user = db.execute('SELECT car_id from CarUser WHERE user_id=?', user_id )
     #än så länge gör jag bara informationen för första bilen men jag vill att man ska kunna välja
     cars_information = db.execute('SELECT * FROM Cars WHERE id = ?', cars_of_user[0])
-    license_number = cars_information['license_number']
-    avatar = cars_information['avatar']
+    #license_number = cars_information['license_number']
+    #avatar = cars_information['avatar']
 
     return cars_information
 
