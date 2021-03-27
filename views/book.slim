@@ -1,0 +1,8 @@
+div class="page_container book_page"
+    div id="chosen_car"
+        div class="avatar_background"
+            /img src="/img/vehicle_avatars/vehicle#{avatar}.jpg" alt="" srcset=""/
+
+    form action="/book" method="post" 
+        input type="datetime-local" name="datetime_booked"/
+        input type="hidden" value="#{Time.now}" name="booking_made"

@@ -68,6 +68,11 @@ post('/add_vehicle') do
     redirect('home')
 end
 
+get('/book') do
+    slim(:book)
+end
+
 get('/user/settings') do
     slim(:'user/settings')
 end
+
