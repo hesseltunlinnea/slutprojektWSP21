@@ -37,15 +37,68 @@
 }
 
 .avatar_background{
-    color: aquamarine;
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     margin: auto;
+    box-shadow: 5px 5px 5px grey;
 }
+
+.avatar_background .license_number{
+    z-index: 1;
+    position: absolute;
+    margin: auto;
+    top: 150px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: lightgrey;
+    width: 150px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+.avatar_background .license_number h2{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 
 .avatar_background img{
     max-width: 100%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+
+.options a{
+    text-decoration: none;
+    font-family: 'Abel', sans-serif;
+}
+
+.home_page .options article{
+    width: 70%;
+    margin: auto;
+    background: antiquewhite;
+    height: 60px;
+    border-radius: 30px;
+}
+
+.home_page .boka h3{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    text-decoration: none;
+    font-size: xx-large;
+}
+
+.home_page .boka{
+    text-decoration: none;
 }
 
 /*ADD VEHICLE*/
