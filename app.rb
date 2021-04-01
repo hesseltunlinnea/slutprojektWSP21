@@ -14,20 +14,24 @@ get('/home')do
         slim(:home, locals:{license_number:license_number, avatar:avatar})
     else
         avatar = 1
-        slim(:home, locals:{avatar:avatar})
+        slim(:home, locals:{avatar:avatar, license_number:"ABC123"})
     end
 end
 
 get('/user/login') do
-    slim(:'user/login')
+    slim(:'user/login', locals:{error:""})
 end
 
-post('/login') do
+get('/user/login/error') do
+    slim(:'user/login', locals:{error:"Fel användarnamn eller lösenord"})
+end
+
+post('/user/login') do
     username = params[:username]
     password = params[:password]
     login_result_array = login_user(username, password)
     if login_result_array[0] == false
-        redirect('/user/login')
+        redirect('/user/login/error')
     else
         session[:user_id] = login_result_array[1]
         redirect('/home')

@@ -43,10 +43,17 @@ end
 end
 
 def login_user(username, password)
-
     db = database()
+    #nedasntående if-sats fungerar ej
+    if db.execute('SELECT id FROM Users where username = ?', username) == nil
+        login_accepted = false
+        login_result_array = [login_accepted]
+        return login_result_array
+    end
+
     user_info_db = db.execute('SELECT id, password_digest FROM Users WHERE username = ?', username)
     user_id = user_info_db.first['id']
+
     password_digest = user_info_db.first['password_digest']
     
     login_accepted = nil

@@ -1,12 +1,16 @@
 
 
 div class="page_container"
-    //header
+    header
+        h1 BiliBil
 
-    form action="/login" method="post" class="login_page"
+    form action="/user/login" method="post" class="login_page"
         input type="text" name="username" placeholder="Användarnamn"
         input type="password" name="password" placeholder="Lösenord"/
+        p style="color:red" #{error} 
         input type="submit" value="Logga in"/
+        
+
 
     p Inget konto? 
     a href="/register" Registera dig
