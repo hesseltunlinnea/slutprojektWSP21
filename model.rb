@@ -1,5 +1,4 @@
 
-
 def database()
     db = SQLite3::Database.new('db/bilibil.db')
     db.results_as_hash = true
@@ -73,7 +72,8 @@ end
 def add_vehicle(avatar, license_number, user_id)
     db = database()
     db.execute('INSERT INTO Cars (avatar, license_number) values (?,?)', avatar, license_number)
-    car_id = db.execute('SELECT id FROM Cars WHERE license_number = ?', license_number)
+    car_information = db.execute('SELECT id FROM Cars WHERE license_number = ?', license_number)
+    car_id = car_information.first['id']
     db.execute('INSERT INTO CarUser (user_id, car_id) values (?,?)', user_id, car_id )
 end
 
