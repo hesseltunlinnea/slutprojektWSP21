@@ -55,6 +55,47 @@ header{
     border-radius: 15px;
     color: white;
     font-family: 'Abel', sans-serif;
+    font-size: large;
+}
+
+/*REGISTER*/
+
+.register_page h1{
+    font-family: 'Abel', sans-serif;
+}
+
+.register_page input[name="first_name"]{
+    width: 33% !important;
+    border-radius: 85px 20px 20px 85px !important; 
+    margin-right: 5px !important;
+}
+.register_page input[name="last_name"]{
+    width: 33% !important;
+    border-radius: 20px 85px 85px 20px !important;
+    margin-left: 5px !important;
+}
+
+
+.register_page input[type="text"], .register_page input[type="password"], .register_page input[type="email"], .register_page input[type="tel"]{
+    width: 70%;
+    height: 80px;
+    border: none;
+    background: white;
+    text-align: center;
+    border-radius: 85px;
+    margin: 10px;
+}
+
+.register_page input[type="submit"]{
+    width: 150px;
+    margin: 10px;
+    height: 30px;
+    border: none;
+    background: #daab6c;
+    border-radius: 15px;
+    color: white;
+    font-family: 'Abel', sans-serif;
+    font-size: large;
 }
 
 /*HOME */

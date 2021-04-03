@@ -14,7 +14,7 @@ get('/home')do
         slim(:home, locals:{license_number:license_number, avatar:avatar})
     else
         avatar = 1
-        slim(:home, locals:{avatar:avatar, license_number:"ABC123"})
+        slim(:home, locals:{avatar:avatar, license_number:"Lägg till bil"})
     end
 end
 
