@@ -6,15 +6,9 @@ div class="page_container home_page"
     div id="chosen_car"
         div class="avatar_background"
             article class="license_number"
-                / - if license_number == none 
-                /     a href="/add_vehicle" 
-                /         h2 #{license_number}
-                / - else
-                h2 #{license_number}
-                / -end
-                
-            /#{license_number}
-            img src="/img/vehicle_avatars/vehicle#{avatar}.jpg" alt="" srcset=""/
+                a href="/user/settings" 
+                    h2 #{license_number}
+            img src="/img/vehicle_avatars/vehicle#{avatar}.jpg" alt="Vald bil" srcset=""/
     div class="options"
         a href="./book" 
             article class="boka"

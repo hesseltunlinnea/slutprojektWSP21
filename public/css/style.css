@@ -132,10 +132,11 @@ header{
     top: 250px;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: lightgrey;
+    background: #daab6c;
     width: 150px;
     height: 50px;
     border-radius: 25px;
+    font-family: 'Abel', sans-serif;
 }
 
 .avatar_background .license_number h2{
@@ -143,6 +144,13 @@ header{
     top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
+    
+}
+
+.license_number a{
+    text-decoration: none;
+    text-transform: uppercase;
+    color: white;
 }
 
 
@@ -190,4 +198,54 @@ header{
 
 .add_vehicle img{
     width: 70px;
+}
+
+/* Book */
+.book_page form{
+    position: relative;
+    top: 40px
+}
+
+.book_page input[type="datetime-local"]{
+    order: none;
+    width: 57%;
+    height: 0px;
+    border: none;
+    background: white;
+    text-align: center;
+    border-radius: 50px 50px 0 0;
+    font-size: x-large;
+    font-family: 'Abel', sans-serif;
+    padding: 53px;
+}
+
+.book_page input[type="submit"]{
+    position: relative;
+    top: 30px;
+    width: 150px;
+    margin: 10px;
+    height: 30px;
+    border: none;
+    background: #daab6c;
+    border-radius: 15px;
+    color: white;
+    font-family: 'Abel', sans-serif;
+    font-size: large;
+}
+
+.book_page .fillment{
+    background: white;
+    width: 78.3%;
+    margin: auto;
+    height: 210px;
+    padding-top: 50px;
+    border-radius: 0 0 50px 50px;
+}
+
+.book_page .fillment p{
+    margin-top: 0;
+    font-family: 'Abel', sans-serif;
+    font-size: large;
+    margin-left: 30px;
+    margin-right: 30px;
 }
