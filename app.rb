@@ -81,9 +81,8 @@ post('/book') do
     datetime_booked = params[:datetime_booked]
     booking_made = params[:booking_made]
 
-    db = database()
-    db.execute('INSERT INTO Booking (user_id, car_id, booking_made, datetime_booked) VALUES (?,?,?,?)', session[:user_id], session[:car_id], booking_made, datetime_booked)
-
+    save_booking()
+    
     redirect('/home')
 end
 

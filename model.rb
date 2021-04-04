@@ -90,3 +90,9 @@ def user_car_information(user_id)
     return car_information_of_user
 
 end
+
+def save_booking()
+    db = database()
+    db.execute('INSERT INTO Booking (user_id, car_id, booking_made, datetime_booked) VALUES (?,?,?,?)', session[:user_id], session[:car_id], booking_made, datetime_booked)
+
+end
