@@ -85,6 +85,7 @@ def user_car_information(user_id)
 
     license_number = car_information_of_user['license_number']
     avatar = car_information_of_user['avatar']
+    
 
     return car_information_of_user
 

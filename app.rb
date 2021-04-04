@@ -9,9 +9,10 @@ enable :sessions
 get('/home')do
     cars_information = user_car_information(session[:user_id])
     if cars_information != []
-        license_number = cars_information['license_number']
-        avatar = cars_information['avatar']
-        slim(:home, locals:{license_number:license_number, avatar:avatar})
+        session[:license_number] = cars_information['license_number']
+        session[:avatar] = cars_information['avatar']
+        session[:car_id] = cars_information['id']
+        slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar]})
     else
         avatar = 1
         slim(:home, locals:{avatar:avatar, license_number:"Lägg till bil"})
@@ -74,6 +75,16 @@ end
 
 get('/book') do
     slim(:book)
+end
+
+post('/book') do
+    datetime_booked = params[:datetime_booked]
+    booking_made = params[:booking_made]
+
+    db = database()
+    db.execute('INSERT INTO Booking (user_id, car_id, booking_made, datetime_booked) VALUES (?,?,?,?)', session[:user_id], session[:car_id], booking_made, datetime_booked)
+
+    redirect('/home')
 end
 
 get('/user/settings') do

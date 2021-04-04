@@ -1,8 +1,16 @@
 div class="page_container book_page"
     div id="chosen_car"
+        a href="./user/settings" class="settings_button"
+            img src="/img/settings-24px.svg" alt="Inställnignar"/
         div class="avatar_background"
-            /img src="/img/vehicle_avatars/vehicle#{avatar}.jpg" alt="" srcset=""/
+            article class="license_number"
+                a href="/user/settings" 
+                    h2 #{session[:license_number]}
+            img src="/img/vehicle_avatars/vehicle#{session[:avatar]}.jpg" alt="Vald bil" srcset=""/
 
     form action="/book" method="post" 
         input type="datetime-local" name="datetime_booked"/
+        div class="fillment"
+            p Tryck på kalendern för att välja datum. Tryck sedan boka.
         input type="hidden" value="#{Time.now}" name="booking_made"
+        input type="submit" value="Boka"/
