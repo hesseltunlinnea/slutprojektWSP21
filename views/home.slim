@@ -17,7 +17,12 @@ div class="page_container home_page"
             article
                 p senaste bokningen 
                 p närmaste bokningen
+        article 
+            - if session[:admin_authority] == true
+                p du är admin
 
+        p #{session[:admin_authority]}
+        
          
                
 

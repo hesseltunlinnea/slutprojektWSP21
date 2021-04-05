@@ -8,6 +8,8 @@ enable :sessions
 
 get('/home')do
     cars_information = user_car_information(session[:user_id])
+    session[:admin_authority] = admin_checker(session[:user_id])
+    
     if cars_information != []
         session[:license_number] = cars_information['license_number']
         session[:avatar] = cars_information['avatar']
@@ -17,6 +19,8 @@ get('/home')do
         avatar = 1
         slim(:home, locals:{avatar:avatar, license_number:"Lägg till bil"})
     end
+
+
 end
 
 get('/user/login') do

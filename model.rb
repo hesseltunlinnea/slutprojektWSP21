@@ -96,3 +96,15 @@ def save_booking()
     db.execute('INSERT INTO Booking (user_id, car_id, booking_made, datetime_booked) VALUES (?,?,?,?)', session[:user_id], session[:car_id], booking_made, datetime_booked)
 
 end
+
+def admin_checker(user_id)
+    db = database()
+    db.results_as_hash = false
+    admin_array = db.execute('SELECT user_id FROM AdminUsers')
+    
+    if admin_array.include?([user_id])
+        return true
+    else
+        return false
+    end
+end
