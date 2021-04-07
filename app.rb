@@ -78,7 +78,7 @@ post('/add_vehicle') do
 end
 
 get('/book') do
-    slim(:book)
+    slim(:'booking/book')
 end
 
 post('/book') do
@@ -94,3 +94,13 @@ get('/user/settings') do
     slim(:'user/settings')
 end
 
+
+get('/admin/statistics') do
+    if admin_checker(session[:user_id]) == false
+        redirect('home')
+    else
+        number_of_users = statistics_retriever()
+
+        slim(:'admin/statistics_overview', locals:{number_of_users:number_of_users})
+    end
+end
