@@ -91,6 +91,13 @@ def user_car_information(user_id)
 
 end
 
+def car_booking_information(car_id) do
+    db = database()
+    last_booking_made = db.execute('SELECT booking_made AND datetime_booked FROM Booking').last
+    booking_made = last_booking_made['booking_made'].strftime("%Y-%m-%d %H:%M")
+    datetime_booked = last_booking_made['datetime_booked']
+end
+
 def save_booking()
     db = database()
     db.execute('INSERT INTO Booking (user_id, car_id, booking_made, datetime_booked) VALUES (?,?,?,?)', session[:user_id], session[:car_id], booking_made, datetime_booked)
@@ -107,4 +114,12 @@ def admin_checker(user_id)
     else
         return false
     end
+end
+
+def statistics_retriever()
+    db = database()
+    db.results_as_hash = false
+    last_user_id = db.execute('SELECT id FROM Users').last
+    number_of_users = last_user_id[0] + 1
+    return number_of_users
 end
