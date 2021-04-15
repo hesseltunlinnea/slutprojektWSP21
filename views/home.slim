@@ -17,15 +17,11 @@ div class="page_container home_page"
         a href="./book" 
             article class="boka"
                 h3 BOKA
-        a href="" 
-            article
-                p senaste bokningen 
-                p närmaste bokningen
-        article 
-            - if session[:admin_authority] == true
-                p du är admin
-
-        p #{session[:admin_authority]}
+       
+        article
+            h4 Senaste bokningen
+            p #{datetime_booked} bokningen skapades #{booking_made}
+            p närmaste bokningen
         
          
                

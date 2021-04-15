@@ -12,5 +12,5 @@ div class="page_container book_page"
         input type="datetime-local" name="datetime_booked"/
         div class="fillment"
             p Tryck på kalendern för att välja datum. Tryck sedan boka.
-        input type="hidden" value="#{Time.now}" name="booking_made"
+        input type="hidden" value="#{Time.now.strftime("%Y-%m-%d %H:%M")}" name="booking_made"
         input type="submit" value="Boka"/

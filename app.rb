@@ -4,6 +4,7 @@ require 'sqlite3'
 require 'bcrypt'
 require_relative './model.rb'
 enable :sessions
+include Model
 
 
 get('/home')do
@@ -14,7 +15,8 @@ get('/home')do
         session[:license_number] = cars_information['license_number']
         session[:avatar] = cars_information['avatar']
         session[:car_id] = cars_information['id']
-        slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar]})
+        last_booking_array = car_booking_information(session[:car_id])
+        slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:last_booking_array[0], datetime_booked:last_booking_array[1]})
     else
         avatar = 1
         slim(:home, locals:{avatar:avatar, license_number:"Lägg till bil"})
@@ -99,8 +101,8 @@ get('/admin/statistics') do
     if admin_checker(session[:user_id]) == false
         redirect('home')
     else
-        number_of_users = statistics_retriever()
-
-        slim(:'admin/statistics_overview', locals:{number_of_users:number_of_users})
+        statistics = statistics_retriever()
+        
+        slim(:'admin/statistics_overview', locals:{number_of_users:statistics[0], number_of_bookings:statistics[1]})
     end
 end
