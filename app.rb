@@ -106,3 +106,8 @@ get('/admin/statistics') do
         slim(:'admin/statistics_overview', locals:{number_of_users:statistics[0], number_of_bookings:statistics[1]})
     end
 end
+
+get('/bookings') do
+    slim(:'booking/read_bookings')
+
+end

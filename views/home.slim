@@ -1,9 +1,11 @@
 div class="page_container home_page"
-    a href="/admin/statistics"
-        img src="/img/icons/statistics_icon.png" alt=""/
+    div class="user_buttons"
 
-    a href="./user/settings" class="settings_button"
-        img src="/img/icons/account_settings.png" alt="Inställnignar"/
+        a href="/admin/statistics"
+            img src="/img/icons/statistics_icon.png" alt=""/
+
+        a href="./user/settings" class="settings_button"
+            img src="/img/icons/account_settings.png" alt="Inställnignar"/
 
     
 
@@ -17,11 +19,11 @@ div class="page_container home_page"
         a href="./book" 
             article class="boka"
                 h3 BOKA
-       
-        article
-            h4 Senaste bokningen
-            p #{datetime_booked} bokningen skapades #{booking_made}
-            p närmaste bokningen
+        a href="./bookings" 
+            article
+                h4 Senaste bokningen
+                p #{datetime_booked} bokningen skapades #{booking_made}
+                p närmaste bokningen
         
          
                
