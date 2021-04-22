@@ -98,7 +98,9 @@ module Model
         db = database()
         last_booking = db.execute('SELECT booking_made, datetime_booked FROM Booking').last
         booking_made = last_booking['booking_made'] #.strftime("%Y-%m-%d %H:%M")
-        datetime_booked = last_booking['datetime_booked']
+        datetime_booked = last_booking['datetime_booked'].to_s 
+
+        #.split(T)
 
         last_booking_array = [booking_made, datetime_booked]
         return last_booking_array
