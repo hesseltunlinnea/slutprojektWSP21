@@ -99,14 +99,22 @@ header{
 }
 
 /*HOME */
+.home_page  .user_buttons{
+    display: flex;
+    position: relative;
+    right: -71%;
+    top: 0%;
+    gap: 20px;
+}
+/* 
 .settings_button{
     position: relative;
     top: auto;
     right: -40%;
-}
+} */
 
 .settings_button img{
-    width: 40px;
+    width: 44px;
     color: tomato;
 }
 
@@ -174,6 +182,7 @@ header{
     background: rgb(255, 252, 247);
     height: 60px;
     border-radius: 30px;
+    color: black;
 }
 
 .home_page .boka h3{
@@ -203,7 +212,7 @@ header{
 /* Book */
 .book_page form{
     position: relative;
-    top: 40px
+    top: 70px
 }
 
 .book_page input[type="datetime-local"]{
