@@ -152,6 +152,7 @@ header{
     top: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
+    font-family: 'Abel', sans-serif
     
 }
 
@@ -257,4 +258,29 @@ header{
     font-size: large;
     margin-left: 30px;
     margin-right: 30px;
+}
+
+
+/* Read bookings */
+.bookings_container{
+    width: 70%;
+    margin: auto;
+    position: relative;
+    top: 70px;
+}
+
+.bookings_container article{
+    background: rgb(255, 252, 247);
+    height: 60px;
+    border-radius: 30px;
+    font-family: 'Abel', sans-serif;
+
+}
+
+.bookings_container p{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: x-large;
 }
