@@ -106,7 +106,7 @@ module Model
         return last_booking_array
     end
 
-    def save_booking()
+    def save_booking(datetime_booked, booking_made)
         db = database()
         db.execute('INSERT INTO Booking (user_id, car_id, booking_made, datetime_booked) VALUES (?,?,?,?)', session[:user_id], session[:car_id], booking_made, datetime_booked)
 
@@ -136,5 +136,12 @@ module Model
 
         return statistics_array
     end
+
+    def booking_retriever(car_id)
+        db = database()
+        db.results_as_hash = false
+        bookings = db.execute('SELECT booking_made, datetime_booked FROM Booking WHERE car_id=? ORDER BY datetime_booked', car_id )
+        return bookings
+    end 
 
 end

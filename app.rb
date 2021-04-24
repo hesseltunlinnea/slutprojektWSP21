@@ -87,7 +87,7 @@ post('/book') do
     datetime_booked = params[:datetime_booked]
     booking_made = params[:booking_made]
 
-    save_booking()
+    save_booking(datetime_booked, booking_made)
     
     redirect('/home')
 end
@@ -108,6 +108,6 @@ get('/admin/statistics') do
 end
 
 get('/bookings') do
-    slim(:'booking/read_bookings')
-
+    bookings = booking_retriever(session[:car_id])
+    slim(:'booking/read_bookings', locals:{bookings:bookings})
 end

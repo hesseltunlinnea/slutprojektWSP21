@@ -5,3 +5,12 @@ div class="page_container book_page"
                 a href="/user/settings" 
                     h2 #{session[:license_number]}
             img src="/img/vehicle_avatars/vehicle#{session[:avatar]}.jpg" alt="Vald bil" srcset=""/
+        
+        div class="bookings_container"
+            - bookings.each do |item|
+                -datetime_booked = item[1].split('T')
+                article 
+                    
+                    p #{datetime_booked[0]}    #{datetime_booked[1]}
+
+
