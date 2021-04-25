@@ -1,8 +1,9 @@
 div class="page_container home_page"
     div class="user_buttons"
 
-        a href="/admin/statistics"
-            img src="/img/icons/statistics_icon.png" alt=""/
+        - if session[:admin_authority] == true
+            a href="/admin/statistics"
+                img src="/img/icons/statistics_icon.png" alt=""/
 
         a href="./user/settings" class="settings_button"
             img src="/img/icons/account_settings.png" alt="Inställnignar"/
@@ -22,8 +23,11 @@ div class="page_container home_page"
         a href="./bookings" 
             article
                 h4 Senaste bokningen
-                p #{datetime_booked} bokningen skapades #{booking_made}
-                p närmaste bokningen
+                p #{datetime_booked} 
+                p style="font-size: x-small"bokningen skapades #{booking_made} 
+            article 
+                h4 Närmaste bokningen
+                p #{upcoming_booking}
         
          
                
