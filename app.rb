@@ -11,15 +11,17 @@ get('/home')do
     cars_information = user_car_information(session[:user_id])
     session[:admin_authority] = admin_checker(session[:user_id])
     
-    if cars_information != []
+    if cars_information != nil
         session[:license_number] = cars_information['license_number']
         session[:avatar] = cars_information['avatar']
         session[:car_id] = cars_information['id']
         last_booking_array = car_booking_information(session[:car_id])
-        slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:last_booking_array[0], datetime_booked:last_booking_array[1]})
+        upcoming_booking = booking_retriever(session[:car_id]).first[1].split('T')
+        datetime_booked = :last_booking_array[1].split("T")
+        slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:last_booking_array[0], datetime_booked:"#{datetime_booked[0]} #{datetime_booked[1]}", upcoming_booking:"#{upcoming_booking[0]} #{upcoming_booking[1]}"})
     else
         avatar = 1
-        slim(:home, locals:{avatar:avatar, license_number:"Lägg till bil"})
+        slim(:home, locals:{avatar:avatar, license_number:"Lägg till bil", booking_made:"Ingen information att hämta", datetime_booked:"Ingen information att hämta", upcoming_booking:"Ingen information att hämta"})
     end
 
 
@@ -47,7 +49,7 @@ post('/user/login') do
 end
 
 get('/user/register') do
-    slim(:'user/register')
+    slim(:'user/register', locals:{error:""})
 end
 
 post('/register') do
@@ -60,12 +62,15 @@ post('/register') do
     password2 = params[:password2]
 
     if register_user(first_name, last_name, username, tel, email, password1, password2) == true
-        redirect('/login')
+        redirect('/user/login')
     else
-        #felmeddelande
-        redirect('/user/regiser')
+        redirect('/user/register/error')
     end
 
+end
+
+get('/user/register/error') do
+    slim(:'user/register', locals:{error:"Lösenordet måste vara minst 6 tecken långt och ska skrivas två gånger"})
 end
 
 get('/add_vehicle') do
