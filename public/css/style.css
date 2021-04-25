@@ -186,6 +186,14 @@ header{
     color: black;
 }
 
+.home_page  h4{
+    margin-bottom: 2px;
+}
+
+.home_page article p{
+    margin:0
+}
+
 .home_page .boka h3{
     position: relative;
     top: 50%;
@@ -194,7 +202,9 @@ header{
     color: black;
     text-decoration: none;
     font-size: xx-large;
+ 
 }
+
 
 .home_page .boka{
     text-decoration: none;
