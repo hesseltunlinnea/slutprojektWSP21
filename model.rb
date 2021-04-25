@@ -86,8 +86,8 @@ module Model
         car_information_of_user = db.execute('SELECT * FROM (Cars INNER JOIN CarUser ON Cars.id = CarUser.car_id) WHERE user_id=?', user_id ).first
         #än så länge gör jag bara informationen för första bilen men jag vill att man ska kunna välja
 
-        license_number = car_information_of_user['license_number']
-        avatar = car_information_of_user['avatar']
+        # license_number = car_information_of_user['license_number']
+        # avatar = car_information_of_user['avatar']
         
 
         return car_information_of_user
