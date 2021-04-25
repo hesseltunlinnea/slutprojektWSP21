@@ -17,7 +17,7 @@ get('/home')do
         session[:car_id] = cars_information['id']
         last_booking_array = car_booking_information(session[:car_id])
         upcoming_booking = booking_retriever(session[:car_id]).first[1].split('T')
-        datetime_booked = :last_booking_array[1].split("T")
+        datetime_booked = last_booking_array[1].split("T")
         slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:last_booking_array[0], datetime_booked:"#{datetime_booked[0]} #{datetime_booked[1]}", upcoming_booking:"#{upcoming_booking[0]} #{upcoming_booking[1]}"})
     else
         avatar = 1
