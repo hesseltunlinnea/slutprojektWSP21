@@ -80,18 +80,41 @@ module Model
         db.execute('INSERT INTO CarUser (user_id, car_id) values (?,?)', user_id, car_id )
     end
 
+    #Hjälpfunktion till user_Car_information
+    def user_car_checker(user_id)
+        db = database()
+
+        if db.execute('SELECT * from CarUser WHERE user_id = ?', user_id) == []
+            return false
+        else
+            return true
+        end
+    end
 
     def user_car_information(user_id)
         db = database()
-        car_information_of_user = db.execute('SELECT * FROM (Cars INNER JOIN CarUser ON Cars.id = CarUser.car_id) WHERE user_id=?', user_id ).first
+        if user_car_checker(user_id) == true
+            car_information_of_user = db.execute('SELECT * FROM (Cars INNER JOIN CarUser ON Cars.id = CarUser.car_id) WHERE user_id=?', user_id ).first
         #än så länge gör jag bara informationen för första bilen men jag vill att man ska kunna välja
+            return car_information_of_user
+        else
+            return false
+        end
 
         # license_number = car_information_of_user['license_number']
         # avatar = car_information_of_user['avatar']
-        
+    
 
-        return car_information_of_user
+    end
 
+    def car_booked_checker(car_id)
+        db = database()
+
+        if db.execute('SELECT * from Booking WHERE car_id = ?', car_id) == []
+            return false
+        else
+            return true
+        end
     end
 
     def car_booking_information(car_id)
@@ -106,9 +129,9 @@ module Model
         return last_booking_array
     end
 
-    def save_booking(datetime_booked, booking_made)
+    def save_booking(user_id, car_id, datetime_booked, booking_made)
         db = database()
-        db.execute('INSERT INTO Booking (user_id, car_id, booking_made, datetime_booked) VALUES (?,?,?,?)', session[:user_id], session[:car_id], booking_made, datetime_booked)
+        db.execute('INSERT INTO Booking (user_id, car_id, booking_made, datetime_booked) VALUES (?,?,?,?)', user_id, car_id, booking_made, datetime_booked)
 
     end
 

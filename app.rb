@@ -7,24 +7,36 @@ enable :sessions
 include Model
 
 
+before() do
+    if (session[:user_id] ==  nil) && (request.path_info != '/user/login') && (request.path_info != '/user/register')
+        session[:error] = "You need to log in to see this"
+        redirect('/user/login')
+    end 
+    session[:admin_authority] = admin_checker(session[:user_id])
+end
+
 get('/home')do
     cars_information = user_car_information(session[:user_id])
-    session[:admin_authority] = admin_checker(session[:user_id])
     
-    if cars_information != nil
+    if cars_information != false
         session[:license_number] = cars_information['license_number']
         session[:avatar] = cars_information['avatar']
         session[:car_id] = cars_information['id']
-        last_booking_array = car_booking_information(session[:car_id])
-        upcoming_booking = booking_retriever(session[:car_id]).first[1].split('T')
-        datetime_booked = last_booking_array[1].split("T")
-        slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:last_booking_array[0], datetime_booked:"#{datetime_booked[0]} #{datetime_booked[1]}", upcoming_booking:"#{upcoming_booking[0]} #{upcoming_booking[1]}"})
+
+        if car_booked_checker(session[:car_id]) == true
+            last_booking_array = car_booking_information(session[:car_id])
+            upcoming_booking = booking_retriever(session[:car_id]).first[1].split('T')
+            datetime_booked = last_booking_array[1].split("T")
+            slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:last_booking_array[0], datetime_booked:"#{datetime_booked[0]} #{datetime_booked[1]}", upcoming_booking:"#{upcoming_booking[0]} #{upcoming_booking[1]}"})
+        else
+            slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:"Ingen information att hämta", datetime_booked:"Ingen information att hämta", upcoming_booking:"Ingen information att hämta"})
+        end
     else
         avatar = 1
         slim(:home, locals:{avatar:avatar, license_number:"Lägg till bil", booking_made:"Ingen information att hämta", datetime_booked:"Ingen information att hämta", upcoming_booking:"Ingen information att hämta"})
     end
 
-
+   
 end
 
 get('/user/login') do
@@ -92,7 +104,7 @@ post('/book') do
     datetime_booked = params[:datetime_booked]
     booking_made = params[:booking_made]
 
-    save_booking(datetime_booked, booking_made)
+    save_booking( session[:user_id], session[:car_id], datetime_booked, booking_made)
     
     redirect('/home')
 end
@@ -101,15 +113,16 @@ get('/user/settings') do
     slim(:'user/settings')
 end
 
+before('/admin/statistics') do
+    if admin_checker(session[:user_id]) == false
+        redirect('/home')
+    end
+end
 
 get('/admin/statistics') do
-    if admin_checker(session[:user_id]) == false
-        redirect('home')
-    else
-        statistics = statistics_retriever()
-        
-        slim(:'admin/statistics_overview', locals:{number_of_users:statistics[0], number_of_bookings:statistics[1]})
-    end
+    statistics = statistics_retriever()
+    slim(:'admin/statistics_overview', locals:{number_of_users:statistics[0], number_of_bookings:statistics[1]})
+  
 end
 
 get('/bookings') do
