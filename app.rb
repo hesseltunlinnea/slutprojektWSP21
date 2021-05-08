@@ -129,3 +129,8 @@ get('/bookings') do
     bookings = booking_retriever(session[:car_id])
     slim(:'booking/read_bookings', locals:{bookings:bookings})
 end
+
+post('/bookings/:id/delete') do
+    delete_booking(params[:id])
+    redirect('/bookings')
+end
