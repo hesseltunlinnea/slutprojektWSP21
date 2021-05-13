@@ -1,4 +1,4 @@
-div class="page_container book_page"
+div class="page_container read_bookings_page"
     div id="chosen_car"
         div class="avatar_background"
             article class="license_number"
@@ -10,10 +10,13 @@ div class="page_container book_page"
             - bookings.each do |booking|
                 -datetime_booked = booking[1].split('T')
                 - booking_id = booking[2].to_i
+                - user_id = booking[3]
+
                 article 
                     p #{datetime_booked[0]}    #{datetime_booked[1]}
-                    form action="/bookings/#{booking_id}/delete" method="post" 
-                        input type="submit" value="ta bort"
+                    - if user_id == session[:user_id]
+                        form action="/bookings/#{booking_id}/delete" method="post" 
+                            input type="submit" value="ta bort"
                         
 
 

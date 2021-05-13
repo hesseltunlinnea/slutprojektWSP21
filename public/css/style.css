@@ -284,6 +284,8 @@ header{
     height: 60px;
     border-radius: 30px;
     font-family: 'Abel', sans-serif;
+    display: flex;
+    align-items: flex-end;
 
 }
 
@@ -293,4 +295,23 @@ header{
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: x-large;
+}
+
+.bookings_container input[type="submit"]{
+    position: relative;
+    width: 75px;
+    margin: 10px;
+    height: 30px;
+    border: none;
+    background: #daab6c;
+    border-radius: 15px;
+    color: white;
+    font-family: 'Abel', sans-serif;
+    font-size: large;
+}
+
+.bookings_container form{
+    position: relative;
+    left: 90px;
+    top: -5px;
 }
