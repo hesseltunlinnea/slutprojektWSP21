@@ -2,5 +2,12 @@ div class="page_container"
     / div username etc
     article 
         h4 Mina fordon 
-        /list
+        - cars.each do |car|
+            div id="chosen_car"
+                div class="avatar_background"
+                    article class="license_number"
+                        a href="/user/settings" 
+                            h2 #{car['license_number']}
+                    img src="/img/vehicle_avatars/vehicle#{car['avatar']}.jpg" alt="Vald bil" srcset=""/
+            
         a href="../add_vehicle" Lägg till fordon 
