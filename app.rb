@@ -16,7 +16,7 @@ before() do
 end
 
 get('/home')do
-    cars_information = user_car_information(session[:user_id])
+    cars_information = user_car_information(session[:user_id]).first
     
     if cars_information != false
         session[:license_number] = cars_information['license_number']
@@ -110,7 +110,8 @@ post('/book') do
 end
 
 get('/user/settings') do
-    slim(:'user/settings')
+    cars_information = user_car_information(session[:user_id])
+    slim(:'user/settings', locals:{cars:cars_information})
 end
 
 before('/admin/statistics') do
@@ -131,6 +132,6 @@ get('/bookings') do
 end
 
 post('/bookings/:id/delete') do
-    delete_booking(params[:id])
+    delete_booking(params[:id], session[:user_id])
     redirect('/bookings')
 end

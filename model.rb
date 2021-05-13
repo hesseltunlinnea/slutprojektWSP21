@@ -94,7 +94,7 @@ module Model
     def user_car_information(user_id)
         db = database()
         if user_car_checker(user_id) == true
-            car_information_of_user = db.execute('SELECT * FROM (Cars INNER JOIN CarUser ON Cars.id = CarUser.car_id) WHERE user_id=?', user_id ).first
+            car_information_of_user = db.execute('SELECT * FROM (Cars INNER JOIN CarUser ON Cars.id = CarUser.car_id) WHERE user_id=?', user_id )
         #än så länge gör jag bara informationen för första bilen men jag vill att man ska kunna välja
             return car_information_of_user
         else
@@ -163,12 +163,14 @@ module Model
     def booking_retriever(car_id)
         db = database()
         db.results_as_hash = false
-        bookings = db.execute('SELECT booking_made, datetime_booked, id FROM Booking WHERE car_id=? ORDER BY datetime_booked', car_id )
+        bookings = db.execute('SELECT booking_made, datetime_booked, id, user_id FROM Booking WHERE car_id=? ORDER BY datetime_booked', car_id )
         return bookings
     end 
 
-    def delete_booking(id)
+    def delete_booking(id, user_id)
         db = database()
-        db.execute('DELETE FROM booking WHERE id =?', id)
+        if user_id = db.execute('SELECT user_id from booking WHERE id=?', id).first
+            db.execute('DELETE FROM booking WHERE id =?', id)
+        end
     end
 end
