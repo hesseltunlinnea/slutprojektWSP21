@@ -1,13 +1,19 @@
 module Model
     
 
-
+    # Helper function for DRY, to avoid repition
     def database()
         db = SQLite3::Database.new('db/bilibil.db')
         db.results_as_hash = true
         return db
     end
 
+    # Compares two inputs, in this case passwords
+    #
+    # @params[string] password1, first input
+    # @params[string] password2, second input
+    #
+    # @return [Boolean]
     def password_comparison(password1, passoword2)
         if password1 == passoword2
             result = true
@@ -17,6 +23,11 @@ module Model
         return result
     end
 
+    # Checks the length of the password, should be over 6 symbols
+    #
+    # @params[string] password, chosen password
+    #
+    # @return [Boolean]
     def password_length(password)
         if password.length < 6
             result = false
@@ -25,7 +36,20 @@ module Model
         end
     end
         
-
+    # Registers user, uses help functions
+    #
+    # @params[string] first_name, first name of user
+    # @params[string] last_name, last name of user
+    # @params[string] username, chosen username
+    # @params[string] tel, telephone number
+    # @params[string] email, email of user
+    # @params[string] password, chosen password
+    # @params[string] confirmation_password, repeated password
+    #
+    # @see Model#password_comparison
+    # @see Model#password_length
+    #
+    # @return [Boolean]
     def register_user(first_name, last_name, username, tel, email, password, confirmation_password)
         if password_comparison(password, confirmation_password) == false
             register_accepted = false
@@ -44,6 +68,13 @@ module Model
     end
     end
 
+
+    # Lets users log in
+    #
+    # @params[string] username,  username of user
+    # @params[string] password,  password of user
+    #
+    # @return [Array] first boolean wheter login iis accepted and then user_id
     def login_user(username, password)
         db = database()
         #nedasntående if-sats fungerar ej
@@ -72,6 +103,11 @@ module Model
 
     end
 
+    # Lets users add vehicles
+    #
+    # @params [Integer] avatar, key of chosen avatar image
+    # @params [string] license_number, license number of vehicle
+    # @params [Integer] user_id, id of user
     def add_vehicle(avatar, license_number, user_id)
         db = database()
         db.execute('INSERT INTO Cars (avatar, license_number) values (?,?)', avatar, license_number)
@@ -80,7 +116,11 @@ module Model
         db.execute('INSERT INTO CarUser (user_id, car_id) values (?,?)', user_id, car_id )
     end
 
-    #Hjälpfunktion till user_Car_information
+    #Help function to user_Car_information, checks if user owns any cars
+    #
+    # @params [Integer] user_id, id of user
+    #
+    # @return [Boolean] true if user owns car
     def user_car_checker(user_id)
         db = database()
 
@@ -91,6 +131,12 @@ module Model
         end
     end
 
+    # Collects data about the user's cars
+    #
+    # @params [Integer] user_id, id of user
+    #
+    # @return [Boolean] false if user has no car
+    # @return [Hash] with data about the car (bookings, license number etc)
     def user_car_information(user_id)
         db = database()
         if user_car_checker(user_id) == true
@@ -107,6 +153,11 @@ module Model
 
     end
 
+    # Checks if chosen car has got bookings
+    #
+    # @params [Integer] car_id, id of car
+    #
+    # @return [Boolean] false if chosen car has no bookings
     def car_booked_checker(car_id)
         db = database()
 
@@ -117,6 +168,11 @@ module Model
         end
     end
 
+    # Collects last booking data of chosen car
+    #
+    # @params [Integer] car_id, id of car
+    #
+    # @return [Array] booking_made, datetime_booked
     def car_booking_information(car_id)
         db = database()
         last_booking = db.execute('SELECT booking_made, datetime_booked FROM Booking').last
@@ -129,12 +185,24 @@ module Model
         return last_booking_array
     end
 
+    # Saves booking of car
+    #
+    # @params [Integer] user_id, id of user
+    # @params [Integer] car_id, id of car
+    # @params [String] datetime_booked, time booked
+    # @params [Integer] booking_made, time when booked
+    #
     def save_booking(user_id, car_id, datetime_booked, booking_made)
         db = database()
         db.execute('INSERT INTO Booking (user_id, car_id, booking_made, datetime_booked) VALUES (?,?,?,?)', user_id, car_id, booking_made, datetime_booked)
 
     end
 
+    # Checks if user is admin
+    #
+    # @params [Integer] user_id, id of user
+    #
+    # @return [Array] booking_made, datetime_booked
     def admin_checker(user_id)
         db = database()
         db.results_as_hash = false
