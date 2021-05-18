@@ -13,7 +13,7 @@ module Model
     # @params[string] password1, first input
     # @params[string] password2, second input
     #
-    # @return [Boolean]
+    # @return [Boolean] true if the passwords matches
     def password_comparison(password1, passoword2)
         if password1 == passoword2
             result = true
@@ -27,7 +27,7 @@ module Model
     #
     # @params[string] password, chosen password
     #
-    # @return [Boolean]
+    # @return [Boolean] true if password is long enough
     def password_length(password)
         if password.length < 6
             result = false
@@ -49,23 +49,24 @@ module Model
     # @see Model#password_comparison
     # @see Model#password_length
     #
-    # @return [Boolean]
+    # @return [Boolean]  
     def register_user(first_name, last_name, username, tel, email, password, confirmation_password)
+        register_accepted = false
         if password_comparison(password, confirmation_password) == false
             register_accepted = false
-            #skicka felmeddelande
-
-
+           
         elsif password_length(password) == false
             register_accepted = false
-            #skicka felmeddelande
+        
         else
             password_digest = BCrypt::Password.create(password)
             db = database()
             db.execute('INSERT INTO Users (first_name, last_name, username, phone_number, email, password_digest) values (?,?,?,?,?,?)', first_name, last_name, username, tel, email, password_digest)
             register_accepted = true
-        return true
-    end
+        end
+
+        return register_accepted
+    
     end
 
 
@@ -246,12 +247,21 @@ module Model
     # Deletes booking
     #
     # @param [Integer] id, id of booking to be deleted
-    # @param [Integer] id, id of booking to be deleted
-
+    # @param [Integer] user_id, id of the user logged in and who made the booking
     def delete_booking(id, user_id)
         db = database()
-        if user_id = db.execute('SELECT user_id from booking WHERE id=?', id).first
-            db.execute('DELETE FROM booking WHERE id =?', id)
-        end
+    
+        db.execute('DELETE FROM booking WHERE id =?', id)
+    
+    end
+
+    # Update booking
+    #
+    # @param [Integer] id, id of booking to be updated
+    # @param [Integer] user_id, id of the user logged in and who made the booking
+    def update_booking(id, user_id, booking_made, datetime_booked)
+        db = database()
+        db.execute('UPDATE booking SET booking_made=?, datetime_booked=? WHERE id=?', booking_made, datetime_booked, id)
+
     end
 end
