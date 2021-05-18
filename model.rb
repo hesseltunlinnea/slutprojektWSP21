@@ -215,6 +215,9 @@ module Model
         end
     end
 
+    # Collects number if users and number of bookings from database
+    #
+    # @return [Array] numbers of users, and number of bookings
     def statistics_retriever()
         db = database()
         db.results_as_hash = false
@@ -228,12 +231,22 @@ module Model
         return statistics_array
     end
 
+    # Collects data of bookings of specific car
+    #
+    # @param [Integer] car_id, id of car in question
+    ""
+    # @return [Array] booking_made, datetime_booked, id, user_id
     def booking_retriever(car_id)
         db = database()
         db.results_as_hash = false
         bookings = db.execute('SELECT booking_made, datetime_booked, id, user_id FROM Booking WHERE car_id=? ORDER BY datetime_booked', car_id )
         return bookings
     end 
+
+    # Deletes booking
+    #
+    # @param [Integer] id, id of booking to be deleted
+    # @param [Integer] id, id of booking to be deleted
 
     def delete_booking(id, user_id)
         db = database()
