@@ -14,6 +14,7 @@ div class="page_container read_bookings_page"
 
                 article 
                     p #{datetime_booked[0]}    #{datetime_booked[1]}
+                    a href="bookings/#{booking_id}/update" Ändra
                     - if user_id == session[:user_id]
                         form action="/bookings/#{booking_id}/delete" method="post" 
                             input type="submit" value="ta bort"

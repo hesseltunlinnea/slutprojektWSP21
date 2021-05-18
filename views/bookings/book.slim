@@ -8,7 +8,7 @@ div class="page_container book_page"
                     h2 #{session[:license_number]}
             img src="/img/vehicle_avatars/vehicle#{session[:avatar]}.jpg" alt="Vald bil" srcset=""/
 
-    form action="/book" method="post" 
+    form action="/bookings/book" method="post" 
         input type="datetime-local" name="datetime_booked"/
         div class="fillment"
             p Tryck på kalendern för att välja datum. Tryck sedan boka.

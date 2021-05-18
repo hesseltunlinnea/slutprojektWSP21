@@ -7,9 +7,11 @@ enable :sessions
 include Model
 
 before() do
-    if (session[:user_id] ==  nil) && (request.path_info != '/user/login') && (request.path_info != '/user/register')
+    if (session[:user_id] ==  nil) && (request.path_info != '/user/login') && (request.path_info != '/user/register/error') && (request.path_info != '/user/login/error') && (request.path_info != '/user/register')
+
         session[:error] = "You need to log in to see this"
         redirect('/user/login')
+
     end 
     session[:admin_authority] = admin_checker(session[:user_id])
 end
@@ -26,7 +28,7 @@ get('/user/login/error') do
     slim(:'user/login', locals:{error:"Fel användarnamn eller lösenord"})
 end
 
-# Attempts login and updates the session, redirects to either '/user/login/error' or '/home'
+# Attempts login and updates the session, redirects to either '/user/login/error' or '/user/home'
 # 
 # @param [String] username, The username
 # @param [String] password, The inputed password
@@ -40,7 +42,7 @@ post('/user/login') do
         redirect('/user/login/error')
     else
         session[:user_id] = login_result_array[1]
-        redirect('/home')
+        redirect('/user/home')
     end
 
 end
@@ -93,7 +95,7 @@ end
 # @see Model#car_booked_checker
 # @see Model#car_booking_information
 # @see Model#booking_retriever
-get('/home')do
+get('/user/home')do
     cars_information = user_car_information(session[:user_id]).first
     
     if cars_information != false
@@ -105,13 +107,13 @@ get('/home')do
             last_booking_array = car_booking_information(session[:car_id])
             upcoming_booking = booking_retriever(session[:car_id]).first[1].split('T')
             datetime_booked = last_booking_array[1].split("T")
-            slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:last_booking_array[0], datetime_booked:"#{datetime_booked[0]} #{datetime_booked[1]}", upcoming_booking:"#{upcoming_booking[0]} #{upcoming_booking[1]}"})
+            slim(:'user/home', locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:last_booking_array[0], datetime_booked:"#{datetime_booked[0]} #{datetime_booked[1]}", upcoming_booking:"#{upcoming_booking[0]} #{upcoming_booking[1]}"})
         else
-            slim(:home, locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:"Ingen information att hämta", datetime_booked:"Ingen information att hämta", upcoming_booking:"Ingen information att hämta"})
+            slim(:'user/home', locals:{license_number:session[:license_number], avatar:session[:avatar], booking_made:"Ingen information att hämta", datetime_booked:"Ingen information att hämta", upcoming_booking:"Ingen information att hämta"})
         end
     else
         avatar = 1
-        slim(:home, locals:{avatar:avatar, license_number:"Lägg till bil", booking_made:"Ingen information att hämta", datetime_booked:"Ingen information att hämta", upcoming_booking:"Ingen information att hämta"})
+        slim(:'user/home', locals:{avatar:avatar, license_number:"Lägg till bil", booking_made:"Ingen information att hämta", datetime_booked:"Ingen information att hämta", upcoming_booking:"Ingen information att hämta"})
     end
 
    
@@ -119,42 +121,42 @@ end
 
 # Displays form to add vehicle
 #
-get('/add_vehicle') do
-    slim(:add_vehicle)
+get('/user/add_vehicle') do
+    slim(:'user/add_vehicle')
 end
 
-# Lets user add vehicle and redirects to '/home'
+# Lets user add vehicle and redirects to '/user/home'
 # 
 # @param [Integer] avatar, key to avatar image of car
 # @param [String] license_number, license number of new car
 #
 # @see Model#add_vehicle
-post('/add_vehicle') do
+post('/user/add_vehicle') do
     avatar = params[:avatar]
     license_number = params[:license_number]
     add_vehicle(avatar, license_number, session[:user_id])
-    redirect('home')
+    redirect('/user/home')
 end
 
 # Displays booking form
 #
-get('/book') do
-    slim(:'booking/book')
+get('/bookings/book') do
+    slim(:'bookings/book')
 end
 
-# Allows user to book a time to use car, redirects to '/home'
+# Allows user to book a time to use car, redirects to '/user/home'
 # 
 # @param [String] datetime_booked, chosen date and time for booking
 # @param [String] booking_made, time when booking was made
 #
 # @see Model#save_booking
-post('/book') do
+post('/bookings/book') do
     datetime_booked = params[:datetime_booked]
     booking_made = params[:booking_made]
 
     save_booking( session[:user_id], session[:car_id], datetime_booked, booking_made)
     
-    redirect('/home')
+    redirect('/user/home')
 end
 
 # Displays settings and car of user
@@ -174,7 +176,7 @@ end
 # @see Model#admin_checker
 before('/admin/statistics') do
     if admin_checker(session[:user_id]) == false
-        redirect('/home')
+        redirect('/user/home')
     end
 end
 
@@ -183,7 +185,7 @@ end
 # @see Model#statistics_retriever
 get('/admin/statistics') do
     statistics = statistics_retriever()
-    slim(:'admin/statistics_overview', locals:{number_of_users:statistics[0], number_of_bookings:statistics[1]})
+    slim(:'admin/statistics', locals:{number_of_users:statistics[0], number_of_bookings:statistics[1]})
   
 end
 
@@ -194,7 +196,7 @@ end
 # @see Model#booking_retriever
 get('/bookings') do
     bookings = booking_retriever(session[:car_id])
-    slim(:'booking/read_bookings', locals:{bookings:bookings})
+    slim(:'bookings/index', locals:{bookings:bookings})
 end
 
 # Deletes bookings, can only delete bookings made by current user, redirects to '/bookings'
@@ -206,4 +208,23 @@ end
 post('/bookings/:id/delete') do
     delete_booking(params[:id], session[:user_id])
     redirect('/bookings')
+end
+
+# updates bookings, only available to the user who created the bookings redirects to '/bookings'
+#
+# @param [Integer] id, id of the booking that user wishes to update
+# @param [Integer] car_id, the session of the car
+#
+# @see Model#update_booking
+post('/bookings/:id/update') do
+    id = params[:id]
+    booking_made = params[:booking_made]
+    datetime_booked = params[:datetime_booked]
+    update_booking(id, session[:user_id], booking_made, datetime_booked)
+    redirect('/bookings')
+end
+
+get('/bookings/:id/update') do
+    booking_id = params[:id]
+    slim(:'bookings/update', locals:{booking_id:booking_id})
 end
