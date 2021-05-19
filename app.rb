@@ -7,7 +7,7 @@ enable :sessions
 include Model
 
 before() do
-    if (session[:user_id] ==  nil) && (request.path_info != '/user/login') && (request.path_info != '/user/register/error') && (request.path_info != '/user/login/error') && (request.path_info != '/user/register')
+    if (session[:user_id] == nil) && (request.path_info != '/user/login') && (request.path_info != '/user/register/error') && (request.path_info != '/user/login/error') && (request.path_info != '/user/register')
 
         session[:error] = "You need to log in to see this"
         redirect('/user/login')
@@ -64,7 +64,7 @@ end
 # @param [String] password2, The second inputed password of the user for confirmation
 #
 # @see Model#register_user
-post('/register') do
+post('/user/register') do
     first_name = params[:first_name]
     last_name = params[:last_name]
     username = params[:username]
@@ -96,9 +96,10 @@ end
 # @see Model#car_booking_information
 # @see Model#booking_retriever
 get('/user/home')do
-    cars_information = user_car_information(session[:user_id]).first
+    cars_information = user_car_information(session[:user_id])
     
     if cars_information != false
+        cars_information = cars_information.first
         session[:license_number] = cars_information['license_number']
         session[:avatar] = cars_information['avatar']
         session[:car_id] = cars_information['id']
@@ -140,8 +141,8 @@ end
 
 # Displays booking form
 #
-get('/bookings/book') do
-    slim(:'bookings/book')
+get('/bookings/new') do
+    slim(:'bookings/new')
 end
 
 # Allows user to book a time to use car, redirects to '/user/home'
@@ -150,7 +151,7 @@ end
 # @param [String] booking_made, time when booking was made
 #
 # @see Model#save_booking
-post('/bookings/book') do
+post('/bookings/new') do
     datetime_booked = params[:datetime_booked]
     booking_made = params[:booking_made]
 
@@ -167,6 +168,7 @@ end
 get('/user/settings') do
     cars_information = user_car_information(session[:user_id])
     slim(:'user/settings', locals:{cars:cars_information})
+  
 end
 
 # Checks if user is admin before directing to '/admin/statistics'
@@ -224,7 +226,19 @@ post('/bookings/:id/update') do
     redirect('/bookings')
 end
 
+# Displays form to update booking
+# @param [Integer] id, id of the booking that user wishes to update
 get('/bookings/:id/update') do
     booking_id = params[:id]
     slim(:'bookings/update', locals:{booking_id:booking_id})
+end
+
+# Deletes user
+#
+# @param [Integer] id, id of user to be deleted
+#
+# @see Model#delete_account
+post('/user/settings/:id/delete') do
+    delete_account(params[:id])
+    redirect('/user/login')
 end
