@@ -6,6 +6,7 @@ Jag ska göra en hemsida som är till för att boka bilen i familjen. Nu när ja
 ![skiss](figma-skiss-slutprojekt-WSP.JPG)
 ## 3. Databas med ER-diagram (Bild på ER-diagram).
 ![ER-diagram](er-diagram.JPG)
+även attributet avatar under cars
 ## 4. Arkitektur (Beskriv filer och mappar - vad gör/innehåller de?).
-
+![Arkitektur](arkitektur.PNG)
 
