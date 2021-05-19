@@ -8,5 +8,5 @@ Jag ska göra en hemsida som är till för att boka bilen i familjen. Nu när ja
 ![ER-diagram](er-diagram.JPG)
 även attributet avatar under cars
 ## 4. Arkitektur (Beskriv filer och mappar - vad gör/innehåller de?).
-![Aritektur](arkitektur.PNG)
+![Arkitektur](arkitektur.PNG)
 
