@@ -64,20 +64,24 @@ module Model
         register_accepted = false
         if password_comparison(password, confirmation_password) == false
             register_accepted = false
-           
+            error = "Lösenorden stämmer inte överns"
         elsif password_length(password) == false
             register_accepted = false
-        
+            error = "Lösenordet måste vara minst 6 tecken"
         elsif username_checker(username) == false
             register_accepted = false
+            error = "Användarnamnet är upptaget"
         else
             password_digest = BCrypt::Password.create(password)
             db = database()
             db.execute('INSERT INTO Users (first_name, last_name, username, phone_number, email, password_digest) values (?,?,?,?,?,?)', first_name, last_name, username, tel, email, password_digest)
             register_accepted = true
+            error = nil
         end
 
-        return register_accepted
+        register_result = [register_accepted, error]
+
+        return register_result
     
     end
 

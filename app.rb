@@ -73,9 +73,11 @@ post('/user/register') do
     password1 = params[:password1]
     password2 = params[:password2]
 
-    if register_user(first_name, last_name, username, tel, email, password1, password2) == true
+    register_result = register_user(first_name, last_name, username, tel, email, password1, password2)
+    if register_result[0] == true
         redirect('/user/login')
     else
+        session[:register_error] = register_result[1]
         redirect('/user/register/error')
     end
 
@@ -84,7 +86,7 @@ end
 # Displays register error if the two passwords do not match or password is shorter than 6 symbols
 #
 get('/user/register/error') do
-    slim(:'user/register', locals:{error:"Lösenordet måste vara minst 6 tecken långt och ska skrivas två gånger"})
+    slim(:'user/register', locals:{error:session[:register_error]})
 end
 
 # Displays home page and the car of the users and information of bookings
